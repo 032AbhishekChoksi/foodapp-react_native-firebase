@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 //import liraries
 import React, {useEffect, useState} from 'react';
 import {
