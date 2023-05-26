@@ -15,6 +15,7 @@ import {
 import {launchImageLibrary} from 'react-native-image-picker';
 import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
+
 // create a component
 const Add = () => {
   const [imageData, setImageData] = useState(null);
