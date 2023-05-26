@@ -1,3 +1,5 @@
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable no-alert */
 //import liraries
 import React, {useEffect, useState} from 'react';
 import {
@@ -8,14 +10,18 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
 
 // create a component
 const Items = () => {
+  const isFocused = useIsFocused();
+  const navigation = useNavigation();
   const [items, setItems] = useState([]);
+
   useEffect(() => {
     getItems();
-  }, []);
+  }, [isFocused]);
 
   const getItems = () => {
     firestore()
@@ -73,7 +79,13 @@ const Items = () => {
                 </View>
               </View>
               <View style={{margin: 10}}>
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate('EditItem', {
+                      data: item.data,
+                      id: item.id,
+                    });
+                  }}>
                   <Image
                     source={require('../images/edit.png')}
                     style={styles.icon}
