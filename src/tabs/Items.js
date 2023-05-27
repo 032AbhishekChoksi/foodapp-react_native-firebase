@@ -55,6 +55,7 @@ const Items = () => {
         getItems();
       });
   };
+
   return (
     <View style={styles.container}>
       <FlatList

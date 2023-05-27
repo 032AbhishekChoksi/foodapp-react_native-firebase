@@ -6,7 +6,7 @@ import {View, Text, StyleSheet} from 'react-native';
 const Splash = ({navigation}) => {
   useEffect(() => {
     setTimeout(() => {
-      navigation.navigate('Login');
+      navigation.navigate('SelectLogin');
     }, 3000);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

@@ -1,6 +1,6 @@
 /* eslint-disable no-alert */
 //import liraries
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -12,19 +12,9 @@ import firestore from '@react-native-firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // create a component
-const Login = ({navigation}) => {
+const UserLogin = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  // useEffect(() => {
-  //   // firestore()
-  //   //   .collection('admin')
-  //   //   .add({email: 'admin@gmail.com', password: 'admin@1234'})
-  //   //   .then(() => {
-  //   //     console.log('admin added!');
-  //   //   });
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
 
   const adminLogin = async () => {
     let users = await firestore().collection('admin').get();
@@ -44,7 +34,7 @@ const Login = ({navigation}) => {
   };
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Admin Login</Text>
+      <Text style={styles.title}>User Login</Text>
       <TextInput
         style={styles.inputStyle}
         placeholder={'Enter Email ID'}
@@ -69,6 +59,13 @@ const Login = ({navigation}) => {
         }}>
         <Text style={styles.btnText}>Login</Text>
       </TouchableOpacity>
+      <Text
+        style={styles.createNewAccount}
+        onPress={() => {
+          navigation.navigate('UserSignup');
+        }}>
+        Create New Account
+      </Text>
     </View>
   );
 };
@@ -109,7 +106,14 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#000',
   },
+  createNewAccount: {
+    fontSize: 18,
+    fontWeight: '600',
+    textDecorationLine: 'underline',
+    marginTop: 50,
+    alignSelf: 'center',
+  },
 });
 
 //make this component available to the app
-export default Login;
+export default UserLogin;
