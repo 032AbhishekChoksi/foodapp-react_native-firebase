@@ -10,28 +10,49 @@ import {
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Loader from '../common/Loader';
 
 // create a component
 const UserLogin = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
 
-  const adminLogin = async () => {
-    let users = await firestore().collection('admin').get();
-    users = users.docs[0]._data;
-    // console.log(users.docs[0]._data);
-    // console.log(users.docs[0]._data.email);
-    if (email === users.email && password === users.password) {
-      try {
-        await AsyncStorage.setItem('EMAIL', email);
-      } catch (e) {
-        console.error('AsyncStorage Error: ' + e);
-      }
-      navigation.navigate('Dashboard');
-    } else {
-      alert('wrong email or password!');
-    }
+  const adminLogin = () => {
+    setModalVisible(true);
+    firestore()
+      .collection('users')
+      // Filter results
+      .where('email', '==', email)
+      .get()
+      .then(res => {
+        setModalVisible(false);
+        if (res.docs.length !== 0) {
+          if (res.docs[0]._data.password === password) {
+            goToNextScreen();
+          } else {
+            alert('Wrong Password!');
+          }
+        } else {
+          alert('Wrong Email!');
+        }
+      })
+      .catch(error => {
+        setModalVisible(false);
+        console.log('Use Login Error: ' + error);
+      });
   };
+
+  const goToNextScreen = async () => {
+    try {
+      await AsyncStorage.setItem('EMAIL', email);
+    } catch (e) {
+      console.error('AsyncStorage Error: ' + e);
+    }
+
+    navigation.navigate('Home');
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>User Login</Text>
@@ -66,6 +87,7 @@ const UserLogin = ({navigation}) => {
         }}>
         Create New Account
       </Text>
+      <Loader modalVisible={modalVisible} setModalVisible={setModalVisible} />
     </View>
   );
 };
