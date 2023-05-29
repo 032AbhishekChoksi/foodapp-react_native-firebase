@@ -1,6 +1,6 @@
 /* eslint-disable no-alert */
 //import liraries
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -11,12 +11,29 @@ import {
 import firestore from '@react-native-firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loader from '../common/Loader';
+import {translation} from '../../utils';
 
 // create a component
 const UserLogin = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState(0);
+
+  useEffect(() => {
+    getLanguage();
+  }, []);
+
+  const getLanguage = async () => {
+    let language = 0;
+    try {
+      // eslint-disable-next-line radix
+      language = parseInt(await AsyncStorage.getItem('LANGUAGE'));
+    } catch (e) {
+      console.error('AsyncStorage Error: ' + e);
+    }
+    setSelectedLanguage(language);
+  };
 
   const adminLogin = () => {
     setModalVisible(true);
@@ -55,7 +72,19 @@ const UserLogin = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>User Login</Text>
+      <Text style={styles.title}>
+        {selectedLanguage === 0
+          ? translation[2].English
+          : selectedLanguage === 1
+          ? translation[2].Gujarati
+          : selectedLanguage === 2
+          ? translation[2].Hindi
+          : selectedLanguage === 3
+          ? translation[2].Punjabi
+          : selectedLanguage === 4
+          ? translation[2].Tamil
+          : translation[2].Urdu}
+      </Text>
       <TextInput
         style={styles.inputStyle}
         placeholder={'Enter Email ID'}
@@ -78,14 +107,36 @@ const UserLogin = ({navigation}) => {
             alert('Please Enter All Data');
           }
         }}>
-        <Text style={styles.btnText}>Login</Text>
+        <Text style={styles.btnText}>
+          {selectedLanguage === 0
+            ? translation[3].English
+            : selectedLanguage === 1
+            ? translation[3].Gujarati
+            : selectedLanguage === 2
+            ? translation[3].Hindi
+            : selectedLanguage === 3
+            ? translation[3].Punjabi
+            : selectedLanguage === 4
+            ? translation[3].Tamil
+            : translation[3].Urdu}
+        </Text>
       </TouchableOpacity>
       <Text
         style={styles.createNewAccount}
         onPress={() => {
           navigation.navigate('UserSignup');
         }}>
-        Create New Account
+        {selectedLanguage === 0
+          ? translation[4].English
+          : selectedLanguage === 1
+          ? translation[4].Gujarati
+          : selectedLanguage === 2
+          ? translation[4].Hindi
+          : selectedLanguage === 3
+          ? translation[4].Punjabi
+          : selectedLanguage === 4
+          ? translation[4].Tamil
+          : translation[4].Urdu}
       </Text>
       <Loader modalVisible={modalVisible} setModalVisible={setModalVisible} />
     </View>

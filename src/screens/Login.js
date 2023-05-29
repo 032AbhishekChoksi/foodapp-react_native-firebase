@@ -10,21 +10,34 @@ import {
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {translation} from '../utils';
 
 // create a component
 const Login = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [selectedLanguage, setSelectedLanguage] = useState(0);
 
-  // useEffect(() => {
-  //   // firestore()
-  //   //   .collection('admin')
-  //   //   .add({email: 'admin@gmail.com', password: 'admin@1234'})
-  //   //   .then(() => {
-  //   //     console.log('admin added!');
-  //   //   });
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+  useEffect(() => {
+    // firestore()
+    //     .collection('admin')
+    //     .add({email: 'admin@gmail.com', password: 'admin@1234'})
+    //     .then(() => {
+    //       console.log('admin added!');
+    //     });
+    getLanguage();
+  }, []);
+
+  const getLanguage = async () => {
+    let language = 0;
+    try {
+      // eslint-disable-next-line radix
+      language = parseInt(await AsyncStorage.getItem('LANGUAGE'));
+    } catch (e) {
+      console.error('AsyncStorage Error: ' + e);
+    }
+    setSelectedLanguage(language);
+  };
 
   const adminLogin = async () => {
     let users = await firestore().collection('admin').get();
@@ -42,9 +55,22 @@ const Login = ({navigation}) => {
       alert('wrong email or password!');
     }
   };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Admin Login</Text>
+      <Text style={styles.title}>
+        {selectedLanguage === 0
+          ? translation[1].English
+          : selectedLanguage === 1
+          ? translation[1].Gujarati
+          : selectedLanguage === 2
+          ? translation[1].Hindi
+          : selectedLanguage === 3
+          ? translation[1].Punjabi
+          : selectedLanguage === 4
+          ? translation[1].Tamil
+          : translation[1].Urdu}
+      </Text>
       <TextInput
         style={styles.inputStyle}
         placeholder={'Enter Email ID'}
@@ -67,7 +93,19 @@ const Login = ({navigation}) => {
             alert('Please Enter All Data');
           }
         }}>
-        <Text style={styles.btnText}>Login</Text>
+        <Text style={styles.btnText}>
+          {selectedLanguage === 0
+            ? translation[3].English
+            : selectedLanguage === 1
+            ? translation[3].Gujarati
+            : selectedLanguage === 2
+            ? translation[3].Hindi
+            : selectedLanguage === 3
+            ? translation[3].Punjabi
+            : selectedLanguage === 4
+            ? translation[3].Tamil
+            : translation[3].Urdu}
+        </Text>
       </TouchableOpacity>
     </View>
   );
