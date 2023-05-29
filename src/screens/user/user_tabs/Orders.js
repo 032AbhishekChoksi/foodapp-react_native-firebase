@@ -3,10 +3,10 @@ import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
 // create a component
-const Home = () => {
+const Orders = () => {
   return (
     <View style={styles.container}>
-      <Text>Home</Text>
+      <Text>Orders</Text>
     </View>
   );
 };
@@ -21,4 +21,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default Home;
+export default Orders;

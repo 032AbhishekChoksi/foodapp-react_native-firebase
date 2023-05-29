@@ -9,7 +9,7 @@ import EditItem from './tabs/EditItem';
 import SelectLogin from './screens/user/SelectLogin';
 import UserLogin from './screens/user/UserLogin';
 import UserSignup from './screens/user/UserSignup';
-import Home from './screens/user/Home';
+import Main from './screens/user/Main';
 
 // create a component
 const Stack = createNativeStackNavigator();
@@ -53,8 +53,8 @@ const AppNavigator = () => {
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="Home"
-          component={Home}
+          name="Main"
+          component={Main}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

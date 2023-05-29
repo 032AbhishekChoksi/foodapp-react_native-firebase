@@ -19,7 +19,7 @@ const Splash = ({navigation}) => {
       if (email === 'admin@gmail.com') {
         navigation.navigate('Dashboard');
       } else {
-        navigation.navigate('Home');
+        navigation.navigate('Main');
       }
     } else {
       navigation.navigate('SelectLogin');

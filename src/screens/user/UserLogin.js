@@ -50,7 +50,7 @@ const UserLogin = ({navigation}) => {
       console.error('AsyncStorage Error: ' + e);
     }
 
-    navigation.navigate('Home');
+    navigation.navigate('Main');
   };
 
   return (
