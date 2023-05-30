@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import Loader from '../common/Loader';
 import firestore from '@react-native-firebase/firestore';
+import uuid from 'react-native-uuid';
 
 // create a component
 const UserSignup = ({navigation}) => {
@@ -21,13 +22,17 @@ const UserSignup = ({navigation}) => {
 
   const saveUser = () => {
     setModalVisible(true);
+    const userId = uuid.v4();
     firestore()
       .collection('users')
-      .add({
+      .doc(userId)
+      .set({
         name: name,
         email: email,
         mobile: mobile,
         password: password,
+        userId: userId,
+        cart: [],
       })
       .then(res => {
         setModalVisible(false);

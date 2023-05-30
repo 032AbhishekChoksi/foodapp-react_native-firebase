@@ -1,3 +1,4 @@
+/* eslint-disable radix */
 /* eslint-disable no-alert */
 /* eslint-disable react-native/no-inline-styles */
 //import liraries
@@ -76,10 +77,11 @@ const Add = () => {
       .collection('items')
       .add({
         name: name,
-        price: price,
-        discountPrice: discountPrice,
+        price: parseInt(price),
+        discountPrice: parseInt(discountPrice),
         description: description,
         imageUrl: url + '',
+        qty: 1,
       })
       .then(() => {
         alert('Item added!');

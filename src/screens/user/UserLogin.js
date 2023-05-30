@@ -46,7 +46,11 @@ const UserLogin = ({navigation}) => {
         setModalVisible(false);
         if (res.docs.length !== 0) {
           if (res.docs[0]._data.password === password) {
-            goToNextScreen();
+            goToNextScreen(
+              res.docs[0]._data.userId,
+              res.docs[0]._data.mobile,
+              res.docs[0]._data.name,
+            );
           } else {
             alert('Wrong Password!');
           }
@@ -60,9 +64,12 @@ const UserLogin = ({navigation}) => {
       });
   };
 
-  const goToNextScreen = async () => {
+  const goToNextScreen = async (userId, mobile, name) => {
     try {
       await AsyncStorage.setItem('EMAIL', email);
+      await AsyncStorage.setItem('USERID', userId);
+      await AsyncStorage.setItem('MOBILE', mobile);
+      await AsyncStorage.setItem('NAME', name);
     } catch (e) {
       console.error('AsyncStorage Error: ' + e);
     }
