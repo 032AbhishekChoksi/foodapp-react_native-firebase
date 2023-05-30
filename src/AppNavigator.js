@@ -10,6 +10,7 @@ import SelectLogin from './screens/user/SelectLogin';
 import UserLogin from './screens/user/UserLogin';
 import UserSignup from './screens/user/UserSignup';
 import Main from './screens/user/Main';
+import Cart from './screens/user/Cart';
 
 // create a component
 const Stack = createNativeStackNavigator();
@@ -56,6 +57,11 @@ const AppNavigator = () => {
           name="Main"
           component={Main}
           options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Cart"
+          component={Cart}
+          options={{headerShown: true}}
         />
       </Stack.Navigator>
     </NavigationContainer>

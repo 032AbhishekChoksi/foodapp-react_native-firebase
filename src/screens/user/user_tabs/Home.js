@@ -13,6 +13,7 @@ import Header from '../../common/Header';
 import firestore from '@react-native-firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
+import Loader from '../../common/Loader';
 let userId = '';
 
 // create a component
@@ -21,6 +22,7 @@ const Home = () => {
   const [cartCount, setCartCount] = useState(0);
   const navigation = useNavigation();
   const isFocused = useIsFocused();
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     getItems();
@@ -59,6 +61,7 @@ const Home = () => {
 
   const onAddToCart = async (item, index) => {
     try {
+      setModalVisible(true);
       userId = await AsyncStorage.getItem('USERID');
       const user = await firestore().collection('users').doc(userId).get();
 
@@ -92,6 +95,7 @@ const Home = () => {
     } catch (e) {
       console.error('' + e);
     }
+    setModalVisible(false);
     getCartItems();
   };
 
@@ -102,7 +106,7 @@ const Home = () => {
         icon={require('../../../images/cart.png')}
         count={cartCount}
         onClickIcon={() => {
-          // navigation.navigate('Cart');
+          navigation.navigate('Cart');
         }}
       />
       <FlatList
@@ -137,6 +141,7 @@ const Home = () => {
           );
         }}
       />
+      <Loader modalVisible={modalVisible} setModalVisible={setModalVisible} />
     </View>
   );
 };
