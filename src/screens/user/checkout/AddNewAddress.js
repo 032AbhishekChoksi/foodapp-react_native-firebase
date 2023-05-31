@@ -30,14 +30,14 @@ const AddNewAddress = () => {
       const userId = await AsyncStorage.getItem('USERID');
       const user = await firestore().collection('users').doc(userId).get();
 
-      let tempDart = [];
-      tempDart = user._data.address;
-      tempDart.push({street, city, pincode, mobile, addressId});
+      let tempCart = [];
+      tempCart = user._data.address;
+      tempCart.push({street, city, pincode, mobile, addressId});
       await firestore()
         .collection('users')
         .doc(userId)
         .update({
-          address: tempDart,
+          address: tempCart,
         })
         .then(res => {
           setModalVisible(false);

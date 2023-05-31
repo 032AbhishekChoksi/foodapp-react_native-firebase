@@ -48,15 +48,15 @@ const Cart = () => {
     try {
       setModalVisible(true);
       const user = await firestore().collection('users').doc(userId).get();
-      let tempDart = [];
-      tempDart = user._data.cart;
-      tempDart.map(element => {
+      let tempCart = [];
+      tempCart = user._data.cart;
+      tempCart.map(element => {
         if (element.id === item.id) {
           element.data.qty = element.data.qty + 1;
         }
       });
       await firestore().collection('users').doc(userId).update({
-        cart: tempDart,
+        cart: tempCart,
       });
       setModalVisible(false);
       getCartItems();
@@ -69,15 +69,15 @@ const Cart = () => {
     try {
       setModalVisible(true);
       const user = await firestore().collection('users').doc(userId).get();
-      let tempDart = [];
-      tempDart = user._data.cart;
-      tempDart.map(element => {
+      let tempCart = [];
+      tempCart = user._data.cart;
+      tempCart.map(element => {
         if (element.id === item.id) {
           element.data.qty = element.data.qty - 1;
         }
       });
       firestore().collection('users').doc(userId).update({
-        cart: tempDart,
+        cart: tempCart,
       });
       setModalVisible(false);
       getCartItems();
@@ -90,11 +90,11 @@ const Cart = () => {
     try {
       setModalVisible(true);
       const user = await firestore().collection('users').doc(userId).get();
-      let tempDart = [];
-      tempDart = user._data.cart;
-      tempDart.splice(index, 1);
+      let tempCart = [];
+      tempCart = user._data.cart;
+      tempCart.splice(index, 1);
       firestore().collection('users').doc(userId).update({
-        cart: tempDart,
+        cart: tempCart,
       });
       setModalVisible(false);
       getCartItems();

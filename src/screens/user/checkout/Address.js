@@ -24,16 +24,16 @@ const Address = () => {
       const userId = await AsyncStorage.getItem('USERID');
       const addressId = await AsyncStorage.getItem('ADDRESS');
       const user = await firestore().collection('users').doc(userId).get();
-      let tempDart = [];
-      tempDart = user._data.address;
-      tempDart.map(item => {
+      let tempCart = [];
+      tempCart = user._data.address;
+      tempCart.map(item => {
         if (item.addressId === addressId) {
           item.selected = true;
         } else {
           item.selected = false;
         }
       });
-      setAddressList(tempDart);
+      setAddressList(tempCart);
     } catch (e) {
       setModalVisible(false);
       console.error('' + e);
@@ -44,9 +44,9 @@ const Address = () => {
     try {
       setModalVisible(true);
       await AsyncStorage.setItem('ADDRESS', item.addressId);
-      let tempDart = [];
-      tempDart = addressList;
-      tempDart.map(itm => {
+      let tempCart = [];
+      tempCart = addressList;
+      tempCart.map(itm => {
         if (itm.addressId === item.addressId) {
           itm.selected = true;
         } else {
@@ -55,7 +55,7 @@ const Address = () => {
       });
 
       let temp = [];
-      tempDart.map(element => {
+      tempCart.map(element => {
         temp.push(element);
       });
       setAddressList(temp);

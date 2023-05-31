@@ -12,6 +12,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import firestore from '@react-native-firebase/firestore';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
+import RazorpayCheckout from 'react-native-razorpay';
 let userId = '';
 
 // create a component
@@ -49,9 +50,9 @@ const Checkout = () => {
       userId = await AsyncStorage.getItem('USERID');
       const addressId = await AsyncStorage.getItem('ADDRESS');
       const user = await firestore().collection('users').doc(userId).get();
-      let tempDart = [];
-      tempDart = user._data.address;
-      tempDart.map(item => {
+      let tempCart = [];
+      tempCart = user._data.address;
+      tempCart.map(item => {
         if (item.addressId === addressId) {
           setSelectedAddress(
             'Address:\n' +
@@ -67,6 +68,66 @@ const Checkout = () => {
       });
     } catch (e) {
       console.error('' + e);
+    }
+  };
+
+  const payNow = async () => {
+    try {
+      const email = await AsyncStorage.getItem('EMAIL');
+      const name = await AsyncStorage.getItem('NAME');
+      const mobile = await AsyncStorage.getItem('MOBILE');
+      var options = {
+        description: 'Credits towards consultation',
+        image: require('../../../images/logo.png'),
+        currency: 'INR',
+        key: 'rzp_test_4WtXukJXO0OQa5',
+        amount: getTotal() * 100,
+        name: 'Food App',
+        order_id: '', //Replace this with an order_id created using Orders API.
+        prefill: {
+          email: email,
+          contact: mobile,
+          name: name,
+        },
+        theme: {color: '#EC9912'},
+      };
+      RazorpayCheckout.open(options)
+        .then(data => {
+          const tmp = {
+            status: 'success',
+            paymentId: data.razorpay_payment_id,
+            cartList: cartList,
+            total: getTotal(),
+            address: selectedAddress,
+            userId: userId,
+            userName: name,
+            userEmail: email,
+            userMobile: mobile,
+          };
+          console.log(JSON.stringify(tmp));
+          alert(JSON.stringify(tmp));
+          // handle success
+          // navigation.navigate('OrderStatus', {
+          //   status: 'success',
+          //   paymentId: data.razorpay_payment_id,
+          //   cartList: cartList,
+          //   total: getTotal(),
+          //   address: selectedAddress,
+          //   userId: userId,
+          //   userName: name,
+          //   userEmail: email,
+          //   userMobile: mobile,
+          // });
+        })
+        .catch(error => {
+          // handle failure
+          console.log('RazorPay Error: ' + error);
+          // navigation.navigate('OrderStatus', {
+          //   status: 'failed',
+          // });
+        });
+    } catch (error) {
+      console.log('' + error);
     }
   };
 
@@ -135,7 +196,7 @@ const Checkout = () => {
         ]}
         onPress={() => {
           if (selectedAddress !== 'No Selected Address') {
-            // payNow();
+            payNow();
           }
         }}>
         <Text style={{color: '#fff', fontSize: 18, fontWeight: '600'}}>
