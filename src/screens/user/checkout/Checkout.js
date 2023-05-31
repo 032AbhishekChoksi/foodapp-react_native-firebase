@@ -93,7 +93,8 @@ const Checkout = () => {
       };
       RazorpayCheckout.open(options)
         .then(data => {
-          const tmp = {
+          // handle success
+          navigation.navigate('OrderStatus', {
             status: 'success',
             paymentId: data.razorpay_payment_id,
             cartList: cartList,
@@ -103,28 +104,14 @@ const Checkout = () => {
             userName: name,
             userEmail: email,
             userMobile: mobile,
-          };
-          console.log(JSON.stringify(tmp));
-          alert(JSON.stringify(tmp));
-          // handle success
-          // navigation.navigate('OrderStatus', {
-          //   status: 'success',
-          //   paymentId: data.razorpay_payment_id,
-          //   cartList: cartList,
-          //   total: getTotal(),
-          //   address: selectedAddress,
-          //   userId: userId,
-          //   userName: name,
-          //   userEmail: email,
-          //   userMobile: mobile,
-          // });
+          });
         })
         .catch(error => {
           // handle failure
           console.log('RazorPay Error: ' + error);
-          // navigation.navigate('OrderStatus', {
-          //   status: 'failed',
-          // });
+          navigation.navigate('OrderStatus', {
+            status: 'failed',
+          });
         });
     } catch (error) {
       console.log('' + error);
