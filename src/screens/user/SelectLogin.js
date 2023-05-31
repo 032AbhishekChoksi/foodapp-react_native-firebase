@@ -77,7 +77,6 @@ const SelectLogin = ({navigation}) => {
           setLanguageModalVisible(true);
         }}>
         <Text>
-          {' '}
           {selectedLanguage === 0
             ? translation[5].English
             : selectedLanguage === 1

@@ -33,6 +33,7 @@ const UserSignup = ({navigation}) => {
         password: password,
         userId: userId,
         cart: [],
+        address: [],
       })
       .then(res => {
         setModalVisible(false);
