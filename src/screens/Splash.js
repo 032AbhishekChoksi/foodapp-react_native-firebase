@@ -1,7 +1,7 @@
 //import liraries
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useEffect} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, Image, StyleSheet} from 'react-native';
 
 // create a component
 const Splash = ({navigation}) => {
@@ -28,7 +28,14 @@ const Splash = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.logo}>Splash</Text>
+      <View />
+      <View style={styles.logoContainer}>
+        <Image source={require('../images/logo.png')} style={styles.logo} />
+        <Text style={styles.logoText}>Food App</Text>
+      </View>
+      <View>
+        <Text style={styles.bottomText}>Developed By Abhishek Choksi 💻</Text>
+      </View>
     </View>
   );
 };
@@ -37,14 +44,17 @@ const Splash = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    backgroundColor: '#fff',
+    justifyContent: 'space-around',
     alignItems: 'center',
   },
+  logoContainer: {alignItems: 'center'},
   logo: {
-    fontSize: 30,
-    fontWeight: '800',
-    color: 'red',
+    width: 200,
+    height: 200,
   },
+  logoText: {fontSize: 30, fontWeight: '600', color: 'red'},
+  bottomText: {fontSize: 15, fontWeight: '800'},
 });
 
 //make this component available to the app
